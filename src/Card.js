@@ -14,7 +14,7 @@ export default class Card extends React.Component {
     axios.get(`http://localhost:8080/tweets/details/INDvWI`)
       .then(res => {
         const media = res.data.data.twitter;
-        console.log(media);
+        // console.log(media);
         this.setState({ media });
       })
   }
@@ -25,25 +25,35 @@ export default class Card extends React.Component {
 
 
   render() {
-  	
+if(this.state.media.length>0){
+	console.log('t',this.state.media)
     return (
       <div>
-
         <table id="customers">
+        <tbody>
          <tr>
           <th>Screen Name</th>
           <th>Text</th>
           <th>Media</th>
          </tr>
+         {
+
+         	  	this.state.media.map( (val, key) => (
          <tr>
-          <td>{(this.state.media.length>0)?(JSON.stringify(this.state.media[0]['screenName'])):("no data")}</td>
-          <td>{(this.state.media.length>0)?(JSON.stringify(this.state.media[0]['text'])):("no data")}</td>
-          <td>{(this.state.media.length>0)?(JSON.stringify(this.state.media[0]['media'])):("no data")}</td>
+          <td>{(val['screenName'])}</td>
+          <td>{val['text']}</td>
+          <td>{(val['media'].length>0)?(<img src={val['media'][0]['mediaURL']} alt='Smiley face' height='42' width='42'/>):('no image')}</td>
          </tr>
+         )
+         	  	)
+     }
+     </tbody>
        </table>
-	
       </div>
     )
-  }
+}else{
+return(null)
+}
+}
 }
 
